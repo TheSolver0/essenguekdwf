@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 use App\Models\Post;
+
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['comments', 'likes'])->orderByDesc('id')->get();
+        // Précharger user, likes, comments et user de chaque commentaire
+        $posts = Post::with(['user', 'likes', 'comments.user'])
+                     ->orderByDesc('id')
+                     ->get();
 
-        return view('posts.index', compact('posts'));
+        return view('posts.activity', compact('posts'));
     }
 
     public function create()
@@ -34,7 +37,7 @@ class PostController extends Controller
         if ($request->hasFile('media')) {
             $file = $request->file('media');
             $type = str_contains($file->getMimeType(), 'video') ? 'video' : 'image';
-            $path = $file->store('posts', 'public'); // stocké dans storage/app/public/posts
+            $path = $file->store('posts', 'public'); // stored in storage/app/public/posts
         }
 
         $post = Post::create([
@@ -45,13 +48,12 @@ class PostController extends Controller
             'media_url' => $path ? Storage::url($path) : null,
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Post créé avec succès !');
-
+        return redirect()->route('activity')->with('success', 'Post créé avec succès !');
     }
 
     public function show(Post $post)
     {
-        return $post->load(['comments', 'likes']);
+        return $post->load(['user', 'comments.user', 'likes']);
     }
 
     public function destroy(Post $post)
@@ -59,6 +61,4 @@ class PostController extends Controller
         $post->delete();
         return response()->noContent();
     }
-
-
 }

@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Notification;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
 
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +25,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo',
+        'badge',
+        'total_dons',
+        'total_likes',
+        'total_commentaires',
     ];
 
     /**
@@ -64,6 +65,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // -----------------------
+    // Relations
+    // -----------------------
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -78,5 +84,62 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    // -----------------------
+    // Gamification
+    // -----------------------
+
+    /**
+     * Met à jour le badge de l'utilisateur en fonction des critères
+     */
+    public function updateBadge()
+    {
+        $badge = 'Aucun';
+
+        // Condition : engagement
+        if ($this->total_likes > 0 || $this->total_commentaires > 0) {
+            $badge = 'Membre';
+        }
+
+        // Nouveau donateur : moins de 10$
+        if ($this->total_dons < 10 && $this->total_dons > 0) {
+            $badge = 'Nouveau Donateur';
+        }
+
+        // Bienfaiteur : 500$ ou plus
+        if ($this->total_dons >= 500) {
+            $badge = 'Bienfaiteur';
+        }
+
+        // Ambassadeur KDWF : 1000$ + engagement
+        if ($this->total_dons >= 1000 && $this->total_likes > 0 && $this->total_commentaires > 0) {
+            $badge = 'Ambassadeur KDWF';
+        }
+
+        $this->badge = $badge;
+        $this->save();
+    }
+
+    public function campagnes()
+    {
+        return $this->hasMany(Campagne::class);
+    }
+
+    public function dons()
+    {
+        return $this->hasMany(Don::class);
+    }
+
+    //public function notifications()
+    //{
+    //    return $this->hasMany(Notification::class);
+    //}
+
+   public function userNotifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id', 'id')
+                    ->orderBy('created_at', 'desc');
+    }
+
 
 }
