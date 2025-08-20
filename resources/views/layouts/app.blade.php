@@ -14,6 +14,9 @@
 
     {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
@@ -29,15 +32,15 @@
             <!-- Logo + Titre -->
             <div class="flex items-center gap-4">
                 <img src="{{ asset('images/logotype.png') }}" alt="Logo KDWFoundation" class="h-16 w-auto">
-                <h1 class="text-4xl font-bold text-sky-600">KDW FONDATION</h1>
+                <h1 class="text-4xl font-bold text-sky-600">KING'S DREAM WORLD FONDATION</h1>
             </div>
         </div>
 
         <!-- Navigation -->
-       <nav class="navbar bg-lime-400 flex justify-between items-center px-6 py-3 rounded-b-[50px]">
+       <nav class="navbar bg-lime-600 flex justify-between items-center px-6 py-3 rounded-b-[50px]">
 
             <!-- Liens de navigation -->
-           <div class="flex gap-6 text-blue-900">
+           <div class="flex gap-6 text-white">
                 <a href="{{ url('/') }}" 
                 class="{{ request()->is('/') ? 'underline' : '' }} hover:underline">Accueil</a>
 
@@ -64,7 +67,7 @@
                 <div class="relative inline-block text-left font-[Great Vibes] text-lg font-medium">
                     <button 
                         type="button" 
-                        class="flex items-center gap-2 text-blue-600 hover:text-blue-800 focus:outline-none"
+                        class="flex items-center gap-2 hover:border-white text-white rounded-lg duration-500 focus:outline-none"
                         onclick="document.getElementById('account-menu').classList.toggle('hidden')"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
@@ -146,6 +149,15 @@
         </div>
     </footer>
 
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+    AOS.init({
+        duration: 800, // durée de l'animation en ms
+        easing: 'ease-in-out',
+        once: true,    // l'animation ne se joue qu'une fois
+    });
+    </script>
 
 </body>
 </html>

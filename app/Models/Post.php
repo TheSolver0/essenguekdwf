@@ -19,7 +19,14 @@ class Post extends Model
         'media_url',   // URL du fichier média
     ];
 
-    // 🔹 Relation avec l'utilisateur (créateur du post)
+    //multipost
+    public function media()
+    {
+        return $this->hasMany(PostMedia::class);
+    }
+
+
+    //  Relation avec l'utilisateur (créateur du post)
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

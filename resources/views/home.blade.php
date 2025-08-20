@@ -6,7 +6,7 @@
 // Exemple de données si tu n'envoies pas depuis le controller
 $projects = $projects ?? [
     ['id'=>1,'name'=>'Centre d’Accueil de la Petite Enfance (CAPE-KDWF)','total'=>50000,'collected'=>25000,'image'=>'project1.jpg'],
-    ['id'=>2,'name'=>'Centre d’Accueil de la Personne Agée Abandonnée et Handicapée (CAPAH-KDWF)','total'=>80000,'collected'=>20000,'image'=>'project2.jpg'],
+    ['id'=>2,'name'=>'Centre d’Accueil de la Personne Agée Abandonnée et Handicapée (CAPAH-KDWF)','total'=>80000,'collected'=>45000,'image'=>'project2.jpg'],
 ];
 
 // Exemple dons simples

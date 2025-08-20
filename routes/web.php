@@ -7,8 +7,21 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controller\Auth\LoginController;
 
 
+
+// Authentification admin
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Dashboard admin (protégé par middleware)
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
 // Page d'accueil
@@ -43,7 +56,14 @@ Route::get('/contact', function () {
 
 
 // Gestion des posts
-Route::resource('posts', PostController::class)->only(['index', 'show', 'create', 'store']);
+Route::resource('posts', PostController::class)
+    ->only(['index', 'show', 'create', 'store']);
+
+Route::get('/posts/create', [PostController::class, 'create'])
+    ->name('posts.create');
+
+Route::post('/posts', [PostController::class, 'store'])
+    ->name('posts.store');
 
 // Likes
 Route::post('/posts/{post}/like', [LikeController::class, 'store'])

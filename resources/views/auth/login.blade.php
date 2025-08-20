@@ -30,6 +30,14 @@
             @csrf
 
             <div class="mb-5">
+                <x-label for="username" value="{{ __('Username') }}" class="text-sky-700 font-semibold" />
+                <x-input id="username" class="mt-1 block w-full border border-sky-300 rounded-md
+                             focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400
+                             transition duration-300"
+                         type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
+            </div>
+
+            <div class="mb-5">
                 <x-label for="email" value="{{ __('Email') }}" class="text-sky-700 font-semibold" />
                 <x-input id="email" class="mt-1 block w-full border border-sky-300 rounded-md
                              focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400

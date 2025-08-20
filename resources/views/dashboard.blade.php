@@ -11,6 +11,8 @@
             onclick="document.getElementById('editModal').classList.remove('hidden')">
             ✏️ Modifier mon profil
         </button>
+        <a href="{{ route('posts.create') }}" class="btn btn-primary">Créer un post</a>
+
     </div>
 
     <!-- Grille principale -->
