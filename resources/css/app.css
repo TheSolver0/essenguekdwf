@@ -9,12 +9,8 @@
 .navbar {
     font-family: 'Great Vibes', cursive;
     font-size: 1.8rem;
-    /*font-size: 3px;*/
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
 }
+
 
 
 /* Animations apparition */

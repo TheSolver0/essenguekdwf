@@ -66,7 +66,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
         <p id="typed-description" class="text-lg md:text-xl opacity-0 transition-opacity duration-500"></p>
 
         <div class="mt-6 flex flex-wrap gap-4 justify-center">
-            <a href="{{ route('media') }}" class="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded">
+            <a href="{{ route('media') }}" class="px-4 py-2 bg-lime-500 hover:bg-lime-600 text-black font-semibold rounded">
                 Découvrir nos actions
             </a>
             <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">
@@ -94,7 +94,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
 </style>
 
 {{-- Section Notre Vision --}}
-    <section class="bg-green-50 py-10 px-4">
+    <section class="bg-white py-10 px-4">
     <div class="max-w-6xl mx-auto">
         <div class="section-header">
             <div class="pink"></div>
@@ -119,6 +119,74 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
             </div>
         </div>
     </section>
+
+{{-- ==== Evenement à venir  ==== --}}
+<section class="bg-green-50 py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="section-header">
+            <div class="pink"></div>
+            <div class="blue-bar">Evenement à venir </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @foreach($images as $image)
+            <div class="bg-lime-100 rounded-lg overflow-hidden card-deep-shadow transform transition">
+                <!-- Image container -->
+                <!--div class="relative group cursor-pointer overflow-hidden card-container">
+                    <img src="{{ asset($image['src']) }}" 
+                        alt="Image"
+                        class="w-full h-48 object-cover transition-transform duration-500">
+
+                    <!-- Texte descriptif -->
+                    <!--div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center text-white text-center p-4 opacity-0 transition-opacity duration-500 description-text">
+                        <p>{{ $image['desc'] }}</p>
+                    </!--div>
+
+                    <!-- Bandeau défilant -->
+                    <!--div class="absolute bottom-0 w-full bg-gray-800 text-white text-sm p-2 overflow-hidden">
+                        <marquee-- behavior="scroll" direction="left">{{ $image['details'] }}</marquee-->
+                    </div>
+                </div-->
+            </div>
+        @endforeach
+        </div>
+    </div>
+</section>
+
+
+{{-- ==== Actualité  ==== --}}
+<section class="bg-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="section-header">
+            <div class="pink"></div>
+            <div class="blue-bar">Actualité</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @foreach($images as $image)
+            <div class="bg-white rounded-lg overflow-hidden card-deep-shadow transform transition">
+                <!-- Image container -->
+                <!--div class="relative group cursor-pointer overflow-hidden card-container">
+                    <img src="{{ asset($image['src']) }}" 
+                        alt="Image"
+                        class="w-full h-48 object-cover transition-transform duration-500">
+
+                    <!-- Texte descriptif -->
+                    <!--div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center text-white text-center p-4 opacity-0 transition-opacity duration-500 description-text">
+                        <p>{{ $image['desc'] }}</p>
+                    </!--div>
+
+                    <!-- Bandeau défilant -->
+                    <!--div class="absolute bottom-0 w-full bg-gray-800 text-white text-sm p-2 overflow-hidden">
+                        <marquee-- behavior="scroll" direction="left">{{ $image['details'] }}</marquee-->
+                    </div>
+                </div-->
+            </div>
+        @endforeach
+        </div>
+    </div>
+</section>
+
 
 {{-- ==== Nos Missions Régaliènnes ==== --}}
 <section class="bg-green-50 py-10 px-4">
