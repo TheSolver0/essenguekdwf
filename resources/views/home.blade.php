@@ -10,7 +10,7 @@ $projects = $projects ?? [
 ];
 
 // Exemple dons simples
-    $simpleDonations = $simpleDonations ?? 25000; 
+    $simpleDonations = $simpleDonations ?? 25000;
 
     // Total collecté = somme des collectés de tous les projets + dons simples
     $totalCollected = array_sum(array_column($projects, 'collected')) + $simpleDonations;
@@ -57,16 +57,16 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
 @endphp
 
 {{-- ==== COVER / Valeurs (conserve ton script machine à écrire si utile) ==== --}}
-<section class="relative h-[480px] flex flex-col items-center justify-center text-white bg-cover bg-center"
-    style="background-image: url('{{ asset('images/f2.jpg') }}');">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+<section class="relative h-[480px] flex flex-col items-center justify-center text-white bg-cover bg-center "
+    style="background-image: url('{{ asset('images/f2.jpg') }}');background-size: cover; border-radius:30px !important;">
+    <div class="absolute inset-0 bg-black bg-opacity-70" style="border-radius:30px !important;"></div>
 
     <div class="relative z-10 text-center max-w-3xl px-4">
-        <h1 id="typed-text" class="text-4xl md:text-5xl font-bold mb-4"></h1>
+        <h1 id="typed-text" class="text-2xl md:text-3xl font-bold mb-4"></h1>
         <p id="typed-description" class="text-lg md:text-xl opacity-0 transition-opacity duration-500"></p>
 
         <div class="mt-6 flex flex-wrap gap-4 justify-center">
-            <a href="{{ route('media') }}" class="px-4 py-2 bg-green-400 hover:bg-green-500 text-black font-semibold rounded">
+            <a href="{{ route('media') }}" class="px-4 py-2 bg-green-500 hover:bg-green-700 text-black font-semibold rounded">
                 Découvrir nos actions
             </a>
             <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">
@@ -80,8 +80,8 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
 <style>
     /* header section style (bar bleu + bande rose à gauche) */
     .section-header { display:flex; align-items:center; gap:12px; margin-bottom:1rem; }
-    .section-header .pink { width:10px; height:34px; background:#ff4dab; border-radius:3px; }
-    .section-header .blue-bar { background:#0ea5e9; color:#fff; padding:8px 14px; border-radius:2px; font-weight:600; }
+    .section-header .pink { width:10px; height:34px; background:#ff5d8f; border-radius:3px; }
+    .section-header .blue-bar { background:#03045e; color:#fff; padding:8px 14px; border-radius:2px; font-weight:600; }
 
     /* Modal */
     #testimonial-modal { opacity:0; pointer-events:none; transition: opacity .25s ease; }
@@ -98,7 +98,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
     <div class="max-w-6xl mx-auto">
         <div class="section-header">
             <div class="pink"></div>
-            <div class="blue-bar">Notre Vision</div>
+            <div class="blue-bar bg-blue-500">Notre Vision</div>
         </div>
             <div class="flex flex-col md:flex-row items-center gap-8">
                 {{-- Vidéo autoplay --}}
@@ -109,12 +109,12 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
 
                 {{-- Texte vision --}}
                 <p class="text-gray-700 md:w-1/2">
-                    Dans sa volonté manifeste d’apporter une solution et un soulagement 
-                    social et matériel aux nombreuses personnes vulnérables, indigentes 
-                    ou en difficulté, <b>la King’s Dream World Foundation </b> a vu le jour. 
-                    Depuis sa création en 2002, cette fondation porte un regard nouveau vers 
-                    les cibles qui bénéficient d’une attention particulière pour leur 
-                    épanouissement et leur développement.            
+                    Dans sa volonté manifeste d’apporter une solution et un soulagement
+                    social et matériel aux nombreuses personnes vulnérables, indigentes
+                    ou en difficulté, <b>la King’s Dream World Foundation </b> a vu le jour.
+                    Depuis sa création en 2002, cette fondation porte un regard nouveau vers
+                    les cibles qui bénéficient d’une attention particulière pour leur
+                    épanouissement et leur développement.
                 </p>
             </div>
         </div>
@@ -133,7 +133,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
             <div class="bg-white rounded-lg overflow-hidden card-deep-shadow transform transition">
                 <!-- Image container -->
                 <div class="relative group cursor-pointer overflow-hidden card-container">
-                    <img src="{{ asset($image['src']) }}" 
+                    <img src="{{ asset($image['src']) }}"
                         alt="Image"
                         class="w-full h-48 object-cover transition-transform duration-500">
 
@@ -182,9 +182,9 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
                     {{-- Photo --}}
                     <div class="bg-pink-500 flex items-center justify-center text-black font-bold w-full md:w-1/3 h-48 md:h-auto">
                         <!--span class="text-3xl">Photo</!--span-->
-                        <img 
-                            src="{{ asset('images/' . $proj['image']) }}" 
-                            alt="{{ $proj['name'] }}" 
+                        <img
+                            src="{{ asset('images/' . $proj['image']) }}"
+                            alt="{{ $proj['name'] }}"
                             class="w-full h-full object-cover"
                         >
                     </div>

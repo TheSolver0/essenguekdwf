@@ -7,15 +7,50 @@
 }
 
 .navbar {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
+    /* font-family: 'Great Vibes', cursive; */
+    /* font-size: 1.8rem; */
     /*font-size: 3px;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    background: #1b4332;
+    /* padding: 1rem; */
+}
+.banner
+{
+    background: url('../images/f2.jpg') no-repeat center center;
+    background-size: cover;
+    /* left:-31px; */
+    /* top:0px; */
+}
+.boxPosts {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.boxPosts > * {
+    flex: 1 1  calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin: 10px;
+    transition: transform 0.3s ease;
 }
 
+.boxPosts img,
+.boxPosts video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.boxPosts img:hover,
+.boxPosts video:hover {
+    transform: scale(1.05);
+}
 
 /* Animations apparition */
 @keyframes fadeLeft {

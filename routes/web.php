@@ -6,6 +6,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
@@ -13,15 +14,7 @@ use App\Http\Controller\Auth\LoginController;
 
 
 
-// Authentification admin
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Dashboard admin (protégé par middleware)
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-});
 
 Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
 // Page d'accueil
@@ -45,6 +38,7 @@ Route::get('/activity', [PostController::class, 'index'])->name('activity');
 Route::get('/media', function () {
     return view('media'); // resources/views/media.blade.php
 })->name('media');
+Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
 Route::get('/implantation', function () {
     return view('implantation'); // resources/views/implantation.blade.php
@@ -85,7 +79,7 @@ Route::post('/logout', function () {
 
 // Dashboard protégé par auth
 Route::middleware([
-    'auth:sanctum',
+    'auth',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {

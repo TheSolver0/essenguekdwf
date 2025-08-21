@@ -11,19 +11,8 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'body',
-        'user_id',
-        'media_type',  // 'image' ou 'video'
-        'media_url',   // URL du fichier média
-    ];
+    protected $guarded = [];
 
-    //multipost
-    public function media()
-    {
-        return $this->hasMany(PostMedia::class);
-    }
 
 
     //  Relation avec l'utilisateur (créateur du post)
@@ -40,6 +29,10 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+    public function media()
+    {
+        return $this->hasMany(Media::class);
     }
 
 

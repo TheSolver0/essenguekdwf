@@ -6,12 +6,12 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-blue-900">Mon Tableau de bord</h1>
-        <button 
+        <button
             class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
             onclick="document.getElementById('editModal').classList.remove('hidden')">
             ✏️ Modifier mon profil
         </button>
-        <a href="{{ route('posts.create') }}" class="btn btn-primary">Créer un post</a>
+        <a href="{{ route('posts.create') }}" class="btn btn-primary bg-green-400 py-2 px-4 rounded-lg hover:bg-green-500">Créer un post</a>
 
     </div>
 
@@ -21,7 +21,7 @@
         <!-- Profil utilisateur -->
         <div class="bg-white shadow-lg rounded-xl p-6">
             <div class="text-center">
-                <img src="{{ $user->photo ? asset('storage/'.$user->photo) : asset('images/avatar.jpg') }}" 
+                <img src="{{ $user->photo ? asset('storage/'.$user->photo) : asset('images/avatar.jpg') }}"
                      alt="Avatar"
                      class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-900">
                 <h2 class="text-xl font-semibold text-blue-900">{{ $user->name }}</h2>

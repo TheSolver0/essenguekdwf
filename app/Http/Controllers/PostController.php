@@ -12,8 +12,8 @@ class PostController extends Controller
     {
         // Précharger user, likes, comments et user de chaque commentaire
         $posts = Post::with(['user', 'likes', 'comments.user'])
-                     ->orderByDesc('id')
-                     ->get();
+            ->orderByDesc('id')
+            ->paginate(10);
 
         return view('posts.activity', compact('posts'));
     }
@@ -28,9 +28,14 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'nullable|string',
-            'media.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4|max:10240', // 10MB max par fichier
-        ]);
+            'media' => 'nullable|array',
+            'media.*' => 'file|max:10240', // 10 Mo max
 
+        ]);
+        // dd($request->file('media'));
+        foreach ($request->file('media') as $index => $file) {
+            dump("media[$index]", $file->getClientOriginalName(), $file->getMimeType());
+        }
         // Création du post
         $post = Post::create([
             'user_id' => auth()->id(),
@@ -38,22 +43,27 @@ class PostController extends Controller
             'body' => $validated['body'] ?? null,
         ]);
 
-        // Gestion de plusieurs fichiers
+        // Gestion des fichiers image et vidéo
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $file) {
-                $type = str_contains($file->getMimeType(), 'video') ? 'video' : 'image';
+                $mime = $file->getMimeType();
+                $type = str_starts_with($mime, 'video/') ? 'video' : (str_starts_with($mime, 'image/') ? 'image' : null);
+
+                if (!$type) {
+                    continue; // Ignore les fichiers non pris en charge
+                }
+
                 $path = $file->store('posts', 'public');
 
                 $post->media()->create([
                     'media_type' => $type,
-                    'media_url'  => Storage::url($path),
+                    'media_url' => Storage::url($path),
                 ]);
             }
         }
 
-        return redirect()->route('activity')->with('success', 'Post créé avec plusieurs fichiers avec succès !');
+        return redirect()->route('activity')->with('success', 'Post créé avec succès avec images et/ou vidéos !');
     }
-
 
     public function show(Post $post)
     {

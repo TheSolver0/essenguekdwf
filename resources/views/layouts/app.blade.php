@@ -22,41 +22,42 @@
 
     {{-- ===== HEADER ===== --}}
     <header class="bg-stone-50 shadow fixed top-0 left-0 w-full z-50">
-        <div class="flex flex-col items-center py-2 border-b-2 border-green-400 relative">
+        <div class="flex flex-col items-center py-0 border-b-2  relative">
             <!-- Lignes vertes -->
             <!-- Barre verte en haut, centrée et avec marge verticale -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 top-1 h-1 w-1/2 bg-lime-400 rounded-full"></div>
+            {{-- <div class="absolute left-1/2 transform -translate-x-1/2 top-1 h-1 w-1/2 bg-lime-400 rounded-full"></div> --}}
             <!-- Barre verte en bas, centrée et avec marge verticale -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 bottom-1 h-1 w-1/2 bg-lime-400 rounded-full"></div>
+            {{-- <div class="absolute left-1/2 transform -translate-x-1/2 bottom-1 h-1 w-1/2 bg-lime-400 rounded-full"></div> --}}
 
             <!-- Logo + Titre -->
             <div class="flex items-center gap-4">
-                <img src="{{ asset('images/logotype.png') }}" alt="Logo KDWFoundation" class="h-16 w-auto">
-                <h1 class="text-4xl font-bold text-sky-600">KING'S DREAM WORLD FONDATION</h1>
+                <img src="{{ asset('images/logotype.png') }}" alt="Logo KDWFoundation" class="h-12 w-auto">
+                <h1 class="text-xl  text-sky-800">KING'S DREAM WORLD FONDATION</h1>
             </div>
         </div>
 
         <!-- Navigation -->
-       <nav class="navbar bg-lime-600 flex justify-between items-center px-6 py-3 rounded-b-[50px]">
+       <nav class="navbar bg-lime-600 flex justify-between items-center px-6 py-3 ">
+       {{-- <nav class="navbar bg-lime-600 flex justify-between items-center px-6 py-3 rounded-b-[50px]"> --}}
 
             <!-- Liens de navigation -->
            <div class="flex gap-6 text-white">
-                <a href="{{ url('/') }}" 
+                <a href="{{ url('/') }}"
                 class="{{ request()->is('/') ? 'underline' : '' }} hover:underline">Accueil</a>
 
-                <a href="{{ url('/about') }}" 
+                <a href="{{ url('/about') }}"
                 class="{{ request()->is('about') ? 'underline' : '' }} hover:underline">Qui sommes-nous</a>
 
-                <a href="{{ url('/activity') }}" 
+                <a href="{{ url('/activity') }}"
                 class="{{ request()->is('activity') ? 'underline' : '' }} hover:underline">Actualité</a>
 
-                <a href="{{ url('/media') }}" 
+                <a href="{{ url('/media') }}"
                 class="{{ request()->is('media') ? 'underline' : '' }} hover:underline">Médiathèque</a>
 
-                <a href="{{ url('/implantation') }}" 
+                <a href="{{ url('/implantation') }}"
                 class="{{ request()->is('implantation') ? 'underline' : '' }} hover:underline">Implantation</a>
 
-                <a href="{{ url('/contact') }}" 
+                <a href="{{ url('/contact') }}"
                 class="{{ request()->is('contact') ? 'underline' : '' }} hover:underline">Contact</a>
             </div>
 
@@ -65,17 +66,17 @@
             <div class="flex items-center gap-4">
                 <!-- Compte -->
                 <div class="relative inline-block text-left font-[Great Vibes] text-lg font-medium">
-                    <button 
-                        type="button" 
-                        class="flex items-center gap-2 hover:border-white text-white rounded-lg duration-500 focus:outline-none"
+                    <button
+                        type="button"
+                        class="flex items-center gap-1 hover:border-white text-white rounded-lg duration-500 focus:outline-none"
                         onclick="document.getElementById('account-menu').classList.toggle('hidden')"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" 
+                            <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M5.121 17.804A9.003 9.003 0 0112 15c2.21 0 4.21.805 5.879 2.121M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <span class="navbar">Compte</span>
+                        <span>Compte</span>
                     </button>
 
                     <!-- Menu déroulant -->
@@ -97,8 +98,9 @@
                 </div>
 
                 <!-- Bouton Don -->
+                {{-- <a href="{{ url('/donate') }}" class=" text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:text-center leading-tight" style="background-color: #168aad;"> --}}
                 <a href="{{ url('/donate') }}" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
-                    Je Fais<br><span class="text-xl">DON</span>
+                    Faire un <span class="font-bold">DON</span>
                 </a>
             </div>
         </nav>
