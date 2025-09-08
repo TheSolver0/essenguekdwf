@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDWFoundation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     {{-- Tailwind via Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -99,7 +100,7 @@
 
                 <!-- Bouton Don -->
                 {{-- <a href="{{ url('/donate') }}" class=" text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:text-center leading-tight" style="background-color: #168aad;"> --}}
-                <a href="{{ url('/donate') }}" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
+                <a href="{{ route('give') }}" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
                     Faire un <span class="font-bold">DON</span>
                 </a>
             </div>
