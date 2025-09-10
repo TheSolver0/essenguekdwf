@@ -839,9 +839,8 @@
                 // Confirmation de paiement avec Flutterwave
                 confirmPaymentBtn.addEventListener('click', function() {
                     flutterwaveModal.style.display = 'none';
-
-                    // processFlutterwavePayment(formData);
-                    makeFlutterwavePayment(formData);
+                    processFlutterwavePayment(formData);
+                    // makeFlutterwavePayment(formData);
                 });
 
                 // Annulation du paiement
