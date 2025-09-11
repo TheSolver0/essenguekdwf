@@ -131,3 +131,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+// Route de Donation
+Route::get('/give', [PageController::class, 'give'])->name('give');
+// Route::post('/give', [PageController::class, 'processGive'])->name('give.process');

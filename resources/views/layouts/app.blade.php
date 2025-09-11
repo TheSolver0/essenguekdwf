@@ -98,7 +98,7 @@
           </div>
 
                 <!-- Bouton Don -->
-                <a href="{{ url('/donate') }}" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
+                <a href="{{ url('/give') }}" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
                     Je Fais<br><span class="text-xl">DON</span>
                 </a>
             </div>
