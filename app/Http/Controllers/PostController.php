@@ -70,9 +70,67 @@ class PostController extends Controller
         return $post->load(['user', 'comments.user', 'likes']);
     }
 
+    public function update(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body'  => 'nullable|string',
+            'media.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,webp,mov,avi,tiff|max:204800',
+        ]);
+
+        // Mise à jour des champs du post
+        $post->update([
+            'title' => $validated['title'],
+            'body'  => $validated['body'] ?? null,
+        ]);
+
+        // Suppression des médias sélectionnés
+        if ($request->filled('delete_media')) {
+            foreach ($request->delete_media as $mediaId) {
+                $media = $post->media()->find($mediaId);
+                if ($media) {
+                    // Supprimer le fichier du storage
+                    $path = str_replace('/storage/', '', $media->media_url);
+                    Storage::disk('public')->delete($path);
+
+                    // Supprimer de la BDD
+                    $media->delete();
+                }
+            }
+        }
+
+        // Ajout de nouveaux médias uploadés
+        if ($request->hasFile('media')) {
+            foreach ($request->file('media') as $file) {
+                $type = str_contains($file->getMimeType(), 'video') ? 'video' : 'image';
+                $path = $file->store('posts', 'public');
+
+                $post->media()->create([
+                    'media_type' => $type,
+                    'media_url'  => Storage::url($path),
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Post mis à jour !');
+
+
+    }
+
     public function destroy(Post $post)
     {
-        $post->delete();
-        return response()->noContent();
+        // Supprimer les médias associés
+        if($post->media){
+            foreach($post->media as $media){
+                $path = str_replace('/storage/', '', $media->media_url); // récupérer le chemin réel
+                Storage::disk('public')->delete($path);
+                $media->delete(); // supprime la ligne media en base
+            }
+        }
+
+        $post->delete(); // Supprime le post en base
+
+        return redirect()->back()->with('success', 'Post supprimé !');
     }
+
 }

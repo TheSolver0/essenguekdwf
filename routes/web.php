@@ -10,6 +10,45 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\DonController;
+
+
+//verification don
+Route::get('/don/event', [DonController::class, 'index'])->name('don.event');
+
+//event par l'admin dans home
+Route::resource('events', EventController::class);
+//contact
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Authentification admin
+//Login partagé
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Dashboard user (protégé)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function() {
+        return view('dashboard'); // resources/views/dashboard.blade.php
+    })->name('dashboard');
+});
+
+// Dashboard admin (protégé)
+Route::middleware(['auth', 'is_admin'])->group(function () {
+   Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+//test
+
+//Route::get('/test-admin', function () {
+   // return 'Middleware chargé !';
+//})->middleware('is_admin');
+
 use App\Http\Controller\Auth\LoginController;
 use NotchPay\NotchPay;
 use NotchPay\Payment;
@@ -19,9 +58,11 @@ use NotchPay\Payment;
 
 Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
 // Page d'accueil
-Route::get('/', function () {
-    return view('home'); // resources/views/home.blade.php
-})->name('home');
+//Route::get('/', function () {
+    //return view('home'); // resources/views/home.blade.php
+//})->name('home');
+
+Route::get('/', [PageController::class, 'home'])->name('home');
 
 // Pages supplémentaires (navigation)
 Route::get('/about', function () {
@@ -34,6 +75,10 @@ Route::get('/activity', function () {
 
 // Route pour afficher l’activité (posts)
 Route::get('/activity', [PostController::class, 'index'])->name('activity');
+Route::get('/activity', [PageController::class, 'activity'])->name('activity');
+
+//Route::get('/activity/{post}', [PageController::class, 'showPost'])->name('activity.show');
+
 
 
 Route::get('/media', function () {
@@ -86,36 +131,3 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
-
-// Route de Donation
-Route::get('/give', [PageController::class, 'give'])->name('give');
-Route::get('/giveTest', function(){
-
-
-NotchPay::setApiKey('pk_test.weaKZT9YdpOWqXsJlI0oeWB2V5ZlkXxJrvyWBoPV7hczLPca6t0s544UUvsrECQOidLUotTEEqYooAJRefQ6TROUh1zzB52RPk1SBi2IJhUbWDqC5GSkJgava3DSM');
-
-try {
-    $payment = Payment::initialize([
-        'amount' => 5000,                // Amount according to currency format
-        'email' => 'client@example.com', // Unique customer email
-        'currency' => 'XAF',             // ISO currency code
-        'callback' => 'https://example.com/callback', // Callback URL (optional)
-        'reference' => 'order_123',      // Unique transaction reference
-        'description' => 'Product purchase', // Description (optional)
-        'channels' => ['mobile_money', 'card'], // Payment channels (optional)
-        'metadata' => [                  // Metadata (optional)
-            'customer_id' => '123',
-            'order_id' => '456'
-        ]
-    ]);
-
-    // Redirect user to payment URL
-    header('Location: ' . $payment->authorization_url);
-    exit();
-} catch(\NotchPay\Exceptions\ApiException $e) {
-    // Handle error
-    echo $e->getMessage();
-}
-
-});
-// Route::post('/give', [PageController::class, 'processGive'])->name('give.process');

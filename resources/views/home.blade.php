@@ -94,7 +94,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
 </style>
 
 {{-- Section Notre Vision --}}
-    <section class="bg-green-50 py-10 px-4">
+    <section class="bg-white py-10 px-4">
     <div class="max-w-6xl mx-auto">
         <div class="section-header">
             <div class="pink"></div>
@@ -119,6 +119,127 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
             </div>
         </div>
     </section>
+
+{{-- ==== Événements à venir ==== --}}
+<section class="bg-green-50 py-10 px-4">
+  <div class="max-w-6xl mx-auto">
+      <div class="section-header mb-6">
+          <div class="pink"></div>
+          <div class="blue-bar">Événements à venir</div>
+      </div>
+
+      @foreach($events as $event)
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+
+            {{-- Image / Vidéo principale --}}
+            @if($event->media->count() > 0)
+                @php $firstMedia = $event->media->first(); @endphp
+
+                @if($firstMedia->media_type === 'image')
+                    <img src="{{ asset('storage/'.$firstMedia->media_url) }}"
+                         alt="media de {{ $event->title }}"
+                         class="w-full h-auto object-contain">
+                @elseif($firstMedia->media_type === 'video')
+                    <video src="{{ asset('storage/'.$firstMedia->media_url) }}"
+                           class="w-full h-64 object-cover"
+                           autoplay muted loop></video>
+                @endif
+            @else
+                {{-- Fallback si aucun média --}}
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
+                    Aucun média disponible
+                </div>
+            @endif
+            <div data-countdown="{{ $event->start_date }}"
+                class="mt-4 flex justify-center">
+                <span class="countdown
+                            px-4 py-2
+                            bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+                            text-white font-bold text-lg rounded-lg shadow-lg animate-pulse
+                            tracking-wider">
+                    ⏳ Chargement...
+                </span>
+            </div>
+            {{-- Infos événement --}}
+            <div class="p-4">
+              <h3 class="text-xl font-bold mb-2">
+                  {{ $event->title }} - {{ $event->location }}
+              </h3>
+              <p class="mb-2 text-gray-600 whitespace-pre-line">{{ $event->description }}</p>
+              <div class="text-center">
+                    <p class="bg-sky-600 text-sm text-white">Début : {{ $event->start_date }}</p>
+
+                    <a href="{{ route('don.event',$event->id) }}"
+                        class="mt-3 inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ">
+                        Soutenir l’événement
+                    </a>
+              </div>
+            </div>
+        </div>
+      @endforeach
+  </div>
+</section>
+
+
+{{-- ==== Actualité ==== --}}
+<section class="bg-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="section-header">
+            <div class="pink"></div>
+            <div class="blue-bar">Actualité</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @isset($latestPosts)
+                @foreach($latestPosts as $post)
+                    <a href="{{ route('activity') }}#post-{{ $post->id }}"
+                    class="bg-white rounded-lg overflow-hidden card-deep-shadow transform transition hover:shadow-lg block">
+
+                        <div class="relative group overflow-hidden">
+                           @php
+                                $mediaUrl = $post->media->first()->media_url ?? null;
+                            @endphp
+
+                            @if($mediaUrl)
+                                <img src="{{ $mediaUrl }}"
+                                    alt="{{ $post->title }}"
+                                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105">
+                            @else
+                                <img src="{{ asset('images/default.jpg') }}"
+                                    alt="Image par défaut"
+                                    class="w-full h-48 object-cover">
+                            @endif
+
+                            {{-- Overlay au hover --}}
+                            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100
+                                        flex items-center justify-center text-white text-center p-4
+                                        transition-opacity duration-300">
+                                <p class="text-sm">{{ Str::limit($post->excerpt ?? $post->content, 100) }}</p>
+                            </div>
+                        </div>
+
+                        {{-- Contenu du post --}}
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold mb-2">{{ $post->title }}</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                {{ Str::limit($post->excerpt ?? $post->content, 80) }}
+                            </p>
+                        </div>
+                    </a>
+                @endforeach
+            @endisset
+        </div>
+
+        <div class="p-4">
+            <h3 class="text-lg font-bold mb-2">Pour voir plus </h3>
+            <p class="text-gray-600 text-sm mb-4">concernant l'actualite cliquer sur le boutton ci-dessous</p>
+            <a href="{{ route('activity') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold text-sm">
+                Voir l’actualité
+            </a>
+        </div>
+    </div>
+</section>
+
 
 {{-- ==== Nos Missions Régaliènnes ==== --}}
 <section class="bg-green-50 py-10 px-4">
@@ -526,5 +647,38 @@ document.querySelectorAll('.card-container').forEach(card => {
     });
 });
 </script>
+
+<script>
+    //compte a rebout
+document.addEventListener("DOMContentLoaded", function () {
+    const countdowns = document.querySelectorAll("[data-countdown]");
+
+    countdowns.forEach(el => {
+        const targetDate = new Date(el.getAttribute("data-countdown")).getTime();
+        const span = el.querySelector(".countdown");
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                span.textContent = "Événement en cours ou terminé";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            span.textContent = `${days}j ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    });
+});
+</script>
+
 
 @endsection
