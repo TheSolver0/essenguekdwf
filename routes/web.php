@@ -14,6 +14,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DonController;
+// use App\Http\Controller\Auth\LoginController;
+use NotchPay\NotchPay;
+use NotchPay\Payment;
 
 
 //verification don
@@ -49,9 +52,6 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
    // return 'Middleware chargé !';
 //})->middleware('is_admin');
 
-use App\Http\Controller\Auth\LoginController;
-use NotchPay\NotchPay;
-use NotchPay\Payment;
 
 
 
