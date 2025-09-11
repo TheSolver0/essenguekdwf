@@ -8,21 +8,38 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /**
-     * Redirection après login.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return \Illuminate\Http\Response
-     */
+    // Affiche le formulaire de login
+    public function showLoginForm()
+    {
+        return view('auth.login'); // resources/views/auth/login.blade.php
+    }
+
+    // Login
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return $this->authenticated($request, Auth::user());
+        }
+
+        return redirect()->back()->withErrors(['email' => 'Identifiants invalides']);
+    }
+
+    // Redirection selon rôle
     protected function authenticated(Request $request, $user)
     {
-        // Si username contient '@dmin' ou si le rôle = admin → redirection admin
-        if (str_contains($user->username, '@dmin') || $user->role === 'admin') {
+        if (strtolower($user->role) === 'admin') {
             return redirect()->route('admin.dashboard');
         }
 
-        // Sinon → redirection utilisateur
         return redirect()->route('dashboard');
+    }
+
+    // Logout
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

@@ -9,29 +9,53 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
-use App\Http\Controller\Auth\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\DonController;
 
 
+//verification don
+Route::get('/don/event', [DonController::class, 'index'])->name('don.event');
+
+//event par l'admin dans home
+Route::resource('events', EventController::class);
 //contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // Authentification admin
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+//Login partagé
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Dashboard admin (protégé par middleware)
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+// Dashboard user (protégé)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function() {
+        return view('dashboard'); // resources/views/dashboard.blade.php
+    })->name('dashboard');
 });
+
+// Dashboard admin (protégé)
+Route::middleware(['auth', 'is_admin'])->group(function () {
+   Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+//test
+
+//Route::get('/test-admin', function () {
+   // return 'Middleware chargé !';
+//})->middleware('is_admin');
+
 
 Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
 // Page d'accueil
-Route::get('/', function () {
-    return view('home'); // resources/views/home.blade.php
-})->name('home');
+//Route::get('/', function () {
+    //return view('home'); // resources/views/home.blade.php
+//})->name('home');
+
+Route::get('/', [PageController::class, 'home'])->name('home');
 
 // Pages supplémentaires (navigation)
 Route::get('/about', function () {
@@ -44,6 +68,10 @@ Route::get('/activity', function () {
 
 // Route pour afficher l’activité (posts)
 Route::get('/activity', [PostController::class, 'index'])->name('activity');
+Route::get('/activity', [PageController::class, 'activity'])->name('activity');
+
+//Route::get('/activity/{post}', [PageController::class, 'showPost'])->name('activity.show');
+
 
 
 Route::get('/media', function () {
@@ -95,3 +123,15 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+//l'interaction de post dans le dashboard admin
+Route::resource('posts', PostController::class);
+Route::get('/activity', [PostController::class, 'index'])->name('activity');
+
+//gestion user admin
+Route::prefix('admin')->name('admin.')->middleware('auth', 'is_admin')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+});
+
+//Mgts!@./*admin
+//loi770BD.2025

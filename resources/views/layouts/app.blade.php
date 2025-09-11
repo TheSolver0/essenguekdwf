@@ -7,6 +7,9 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -54,21 +57,34 @@
         <div class="flex items-center gap-2 md:gap-4 mt-2 md:mt-0">
           <!-- Compte -->
           <div class="relative inline-block text-left font-[Great Vibes] text-sm md:text-lg">
-            <button type="button" class="flex items-center gap-2 text-white hover:bg-black rounded-lg px-2 py-1 md:px-3 md:py-1 duration-500 focus:outline-none"
-              onclick="document.getElementById('account-menu').classList.toggle('hidden')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 md:h-6 w-5 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9.003 9.003 0 0112 15c2.21 0 4.21.805 5.879 2.121M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span class="navbar">Compte</span>
-            </button>
-            <div id="account-menu" class="navbar hidden absolute right-0 mt-2 w-36 md:w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-              <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">Login</a>
-              <a href="{{ route('register') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">Register</a>
-              <form action="{{ route('logout') }}" method="post">
-                @csrf
-                <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-500 hover:bg-gray-100">Déconnexion</button>
-              </form>
-            </div>
+              <button type="button" class="flex items-center gap-2 text-white hover:bg-black rounded-lg px-2 py-1 md:px-3 md:py-1 duration-500 focus:outline-none"
+                  onclick="document.getElementById('account-menu').classList.toggle('hidden')">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 md:h-6 w-5 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9.003 9.003 0 0112 15c2.21 0 4.21.805 5.879 2.121M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  <span class="navbar">Compte</span>
+              </button>
+
+              <div id="account-menu" class="navbar hidden absolute right-0 mt-2 w-36 md:w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  @auth
+                      <!-- Si l'utilisateur est connecté -->
+                      <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}" 
+                        class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">
+                        {{ auth()->user()->username }}
+                      </a>
+
+                      <form action="{{ route('logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
+                              Déconnexion
+                          </button>
+                      </form>
+                  @else
+                      <!-- Si aucun utilisateur connecté -->
+                      <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">Connexion</a>
+                      <a href="{{ route('register') }}" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100">Inscription</a>
+                  @endauth
+              </div>
           </div>
 
           <a href="{{ url('/donate') }}" class="bg-sky-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-md font-bold text-xs md:text-sm shadow-md hover:bg-blue-700 text-center leading-tight">
@@ -120,6 +136,12 @@
 </footer>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="//unpkg.com/alpinejs" defer></script>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
 <script>
 AOS.init({ duration:800, easing:'ease-in-out', once:true });
 

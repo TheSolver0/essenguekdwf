@@ -16,6 +16,8 @@ class User extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,8 +25,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'role',
         'photo',
         'badge',
         'total_dons',
@@ -140,6 +144,21 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class, 'user_id', 'id')
                     ->orderBy('created_at', 'desc');
     }
+
+        /**
+    * Retourne l'URL de la photo de profil
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        // Si l'utilisateur a une photo définie
+        if ($this->photo) {
+            return asset('storage/' . $this->photo); // ou selon ton dossier de stockage
+        }
+
+        // Sinon, une image par défaut
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
+    }
+
 
 
 }
