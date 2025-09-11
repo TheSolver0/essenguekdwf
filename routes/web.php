@@ -75,14 +75,14 @@ Route::get('/activity', function () {
 
 // Route pour afficher l’activité (posts)
 Route::get('/activity', [PostController::class, 'index'])->name('activity');
-Route::get('/activity', [PageController::class, 'activity'])->name('activity');
+// Route::get('/activity', [PageController::class, 'activity'])->name('activity');
 
 //Route::get('/activity/{post}', [PageController::class, 'showPost'])->name('activity.show');
 
 
 
 Route::get('/media', function () {
-    return view('media'); // resources/views/media.blade.php
+    // return view('media'); // resources/views/media.blade.php
 })->name('media');
 Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 

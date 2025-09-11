@@ -1,14 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="boxPosts">
+<div class="pt-[140px] md:pt-[160px] max-w-3xl mx-auto space-y-10 px-4">
   @foreach ($posts as $index => $post)
     <x-post-card :post="$post" :delay="$index * 100" id="post-{{ $post->id }}" />
   @endforeach
-
-<div class="mt-1">
-  {{ $posts->links() }}
-</div>
 </div>
 
 

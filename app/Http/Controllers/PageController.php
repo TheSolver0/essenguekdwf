@@ -36,7 +36,7 @@ class PageController extends Controller
 
 
         return view('home', compact('latestPosts', 'events'));
-  
+
     }
 
     public function about() {
@@ -44,7 +44,7 @@ class PageController extends Controller
     }
 
     public function activity() {
-        return view('activity');
+        // return view('posts.activity');
     }
 
     public function showPost(Post $post)
