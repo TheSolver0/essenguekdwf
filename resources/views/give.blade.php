@@ -736,7 +736,8 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Configuration de Flutterwave - REMPLACEZ par votre clé publique
-                const FLUTTERWAVE_PUBLIC_KEY = 'FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X';
+                const FLUTTERWAVE_PUBLIC_KEY = '39cdc70d-eb23-4e7b-89e6-08c7711694ac';
+                // const FLUTTERWAVE_PUBLIC_KEY = 'FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-X';
 
                 // Gestion des boutons de montant
                 const amountButtons = document.querySelectorAll('.amount-btn');
@@ -863,7 +864,7 @@
                             amount: formData.amount,
                             currency: "XOF",
                             payment_options: "mobilemoney",
-                            redirect_url: "https://votresite.com/confirmation",
+                            redirect_url: "http://127.0.0.1:8000/give",
                             customer: {
                                 email: formData.email,
                                 phone_number: formData.phone,
@@ -872,7 +873,7 @@
                             customizations: {
                                 title: "Don Association Solidarité",
                                 description: "Faire un don à notre association",
-                                logo: "https://votresite.com/logo.png"
+                                logo: "http://127.0.0.1:8000/images/logotype.png"
                             }
                         });
 

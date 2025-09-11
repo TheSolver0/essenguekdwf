@@ -11,7 +11,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controller\Auth\LoginController;
-
+use NotchPay\NotchPay;
+use NotchPay\Payment;
 
 
 
@@ -88,4 +89,33 @@ Route::middleware([
 
 // Route de Donation
 Route::get('/give', [PageController::class, 'give'])->name('give');
+Route::get('/giveTest', function(){
+
+
+NotchPay::setApiKey('pk_test.weaKZT9YdpOWqXsJlI0oeWB2V5ZlkXxJrvyWBoPV7hczLPca6t0s544UUvsrECQOidLUotTEEqYooAJRefQ6TROUh1zzB52RPk1SBi2IJhUbWDqC5GSkJgava3DSM');
+
+try {
+    $payment = Payment::initialize([
+        'amount' => 5000,                // Amount according to currency format
+        'email' => 'client@example.com', // Unique customer email
+        'currency' => 'XAF',             // ISO currency code
+        'callback' => 'https://example.com/callback', // Callback URL (optional)
+        'reference' => 'order_123',      // Unique transaction reference
+        'description' => 'Product purchase', // Description (optional)
+        'channels' => ['mobile_money', 'card'], // Payment channels (optional)
+        'metadata' => [                  // Metadata (optional)
+            'customer_id' => '123',
+            'order_id' => '456'
+        ]
+    ]);
+
+    // Redirect user to payment URL
+    header('Location: ' . $payment->authorization_url);
+    exit();
+} catch(\NotchPay\Exceptions\ApiException $e) {
+    // Handle error
+    echo $e->getMessage();
+}
+
+});
 // Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
