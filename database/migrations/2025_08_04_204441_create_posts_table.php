@@ -10,17 +10,25 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn(['media_type', 'media_url']);
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('title');
+            $table->text('body')->nullable();
+            $table->string('media_type')->nullable(); // 'image' ou 'video'
+            $table->string('media_url')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('media_type')->nullable();
-            $table->string('media_url')->nullable();
-        });
+        Schema::dropIfExists('posts');
     }
-
 };
