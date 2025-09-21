@@ -134,4 +134,4 @@ Route::middleware([
 
 // Route de Donation
 Route::get('/give', [PageController::class, 'give'])->name('give');
-// Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
+Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
