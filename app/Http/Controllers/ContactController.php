@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ContactMessage;
 
 class ContactController extends Controller
 {
@@ -18,25 +19,53 @@ class ContactController extends Controller
     {
         // Validation des champs
         $request->validate([
-            'first_name' => 'required|string|max:100',
-            'last_name'  => 'required|string|max:100',
-            'address'    => 'nullable|string|max:255',
-            'city'       => 'nullable|string|max:100',
-            'state'      => 'nullable|string|max:100',
-            'zip'        => 'nullable|string|max:20',
-            'email'      => 'required|email',
-            'phone'      => 'nullable|string|max:20',
-            'message'    => 'required|string|max:5000',
+            'prenom'    => 'required|string|max:100',
+            'nom'       => 'required|string|max:100',
+            'adresse'   => 'nullable|string|max:255',
+            'ville'     => 'nullable|string|max:100',
+            'region'    => 'nullable|string|max:100',
+            'zip'       => 'nullable|string|max:20',
+            'email'     => 'required|email',
+            'telephone' => 'nullable|string|max:20',
+            'message'   => 'required|string|max:5000',
         ]);
 
-        // Envoi par email
-        $data = $request->all();
+        // Enregistrement en base
+        ContactMessage::create([
+            'prenom'    => $request->prenom,
+            'nom'       => $request->nom,
+            'adresse'   => $request->adresse,
+            'ville'     => $request->ville,
+            'region'    => $request->region,
+            'zip'       => $request->zip,
+            'email'     => $request->email,
+            'telephone' => $request->telephone,
+            'message'   => $request->message,
+        ]);
 
+        // Envoi par email (optionnel)
+        $data = $request->all();
         Mail::send('emails.contact', ['data' => $data], function($message) use ($data) {
-            $message->to('nathanbiloa@gmail.com') // remplace par le vrai email
+            $message->to('nathanbiloa@gmail.com')
                     ->subject('Nouveau message depuis le formulaire de contact');
         });
 
         return back()->with('success', 'Merci ! Votre message a été envoyé avec succès.');
     }
+
+    public function markRead(ContactMessage $msg)
+    {
+        $msg->lu = true;
+        $msg->save();
+        return back();
+    }
+
+    public function destroy(ContactMessage $contactMessage)
+    {
+        $contactMessage->delete();
+
+        return redirect()->back()->with('success', 'Message supprimé avec succès ✅');
+    }
+
+
 }

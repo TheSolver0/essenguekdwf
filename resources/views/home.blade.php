@@ -66,7 +66,7 @@ Je suis reconnaissante pour cette œuvre, pour ceux qui y servent avec cœur, et
         <p id="typed-description" class="text-lg md:text-xl opacity-0 transition-opacity duration-500"></p>
 
         <div class="mt-6 flex flex-wrap gap-4 justify-center">
-            <a href="{{ route('media') }}" class="px-4 py-2 bg-lime-500 hover:bg-lime-600 text-black font-semibold rounded">
+            <a href="{{ route('mediatheque') }}" class="px-4 py-2 bg-lime-500 hover:bg-lime-600 text-black font-semibold rounded">
                 Découvrir nos actions
             </a>
             <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded">

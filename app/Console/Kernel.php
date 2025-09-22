@@ -8,16 +8,21 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * Définit le planning des commandes.
+     * Définir les commandes planifiées.
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Exemple :
-        // $schedule->command('inspire')->hourly();
+        // Archiver automatiquement les médias expirés chaque jour
+        $schedule->call(function () {
+            \App\Models\Media::where('archived', false)
+                ->whereNotNull('date_expiration')
+                ->whereDate('date_expiration', '<', now())
+                ->update(['archived' => true]);
+        })->daily();
     }
 
     /**
-     * Enregistre les commandes Artisan pour l'application.
+     * Enregistrer les commandes artisan.
      */
     protected function commands(): void
     {

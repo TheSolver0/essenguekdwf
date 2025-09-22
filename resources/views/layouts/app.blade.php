@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KDWFoundation</title>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KDWFoundation</title>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
@@ -48,7 +50,7 @@
           <a href="{{ url('/') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('/') ? 'underline' : '' }}">Accueil</a>
           <a href="{{ url('/about') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('about') ? 'underline' : '' }}">Qui sommes-nous</a>
           <a href="{{ url('/activity') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('activity') ? 'underline' : '' }}">Actualité</a>
-          <a href="{{ url('/media') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('media') ? 'underline' : '' }}">Médiathèque</a>
+          <a href="{{ url('/mediatheque') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('mediatheque') ? 'underline' : '' }}">Médiathèque</a>
           <a href="{{ url('/implantation') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('implantation') ? 'underline' : '' }}">Implantation</a>
           <a href="{{ url('/contact') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('contact') ? 'underline' : '' }}">Contact</a>
         </div>

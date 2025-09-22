@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 use App\Models\Notification;
-
 
 class User extends Authenticatable
 {
-
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     protected $table = 'users';
@@ -70,6 +68,23 @@ class User extends Authenticatable
         ];
     }
 
+    // 🚀 Génération auto du username
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->username)) {
+                $baseUsername = Str::slug($user->name);
+
+                // Vérifier si déjà existant
+                $count = static::where('username', 'like', $baseUsername.'%')->count();
+
+                $user->username = $count ? $baseUsername.'-'.($count+1) : $baseUsername;
+            }
+        });
+    }
+
     // -----------------------
     // Relations
     // -----------------------
@@ -101,7 +116,7 @@ class User extends Authenticatable
         $badge = 'Aucun';
 
         // Condition : engagement
-        if ($this->total_likes > 0 || $this->total_commentaires > 0) {
+        if ($this->total_likes >= 0 || $this->total_commentaires >= 0) {
             $badge = 'Membre';
         }
 
@@ -139,14 +154,14 @@ class User extends Authenticatable
     //    return $this->hasMany(Notification::class);
     //}
 
-   public function userNotifications()
+    public function userNotifications()
     {
         return $this->hasMany(Notification::class, 'user_id', 'id')
                     ->orderBy('created_at', 'desc');
     }
 
-        /**
-    * Retourne l'URL de la photo de profil
+    /**
+     * Retourne l'URL de la photo de profil
      */
     public function getProfilePhotoUrlAttribute()
     {
@@ -158,7 +173,4 @@ class User extends Authenticatable
         // Sinon, une image par défaut
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
     }
-
-
-
 }
