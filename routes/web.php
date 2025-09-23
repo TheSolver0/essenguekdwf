@@ -14,6 +14,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DonController;
+use App\Http\Controllers\MediathequeController;
+
 // use App\Http\Controller\Auth\LoginController;
 use NotchPay\NotchPay;
 use NotchPay\Payment;
@@ -24,9 +26,18 @@ Route::get('/don/event', [DonController::class, 'index'])->name('don.event');
 
 //event par l'admin dans home
 Route::resource('events', EventController::class);
+
 //contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.store');
+Route::post('/admin/contact/{msg}/read', [ContactController::class, 'markRead'])->name('admin.contact.markRead');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.store');
+Route::delete('/admin/contact/{contactMessage}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])
+    ->name('admin.contact.destroy');
+
+
 
 // Authentification admin
 //Login partagé
@@ -81,18 +92,32 @@ Route::get('/activity', [PostController::class, 'index'])->name('activity');
 
 
 
-Route::get('/media', function () {
-    // return view('media'); // resources/views/media.blade.php
-})->name('media');
+Route::get('/mediatheque', function () {
+    // return view('mediatheque'); // resources/views/media.blade.php
+})->name('mediatheque');
 Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
-Route::get('/implantation', function () {
-    return view('implantation'); // resources/views/implantation.blade.php
-})->name('implantation');
+//Route::get('/implantation', function () {
+  //  return view('implantation'); // resources/views/implantation.blade.php
+//})->name('implantation');
+Route::get('/mediatheque', [MediathequeController::class, 'index'])->name('mediatheque');
 
 Route::get('/contact', function () {
     return view('contact'); // resources/views/contact.blade.php
 })->name('contact');
+
+
+
+
+
+// Admin (Dashboard)
+Route::prefix('admin')->name('admin.')->middleware(['auth','is_admin'])->group(function () {
+    Route::get('medias', [MediathequeController::class, 'index'])->name('medias.index');
+    Route::get('medias/create', [MediathequeController::class, 'create'])->name('medias.create');
+    Route::post('medias', [MediathequeController::class, 'store'])->name('medias.store');
+    Route::delete('medias/{media}', [MediathequeController::class, 'destroy'])->name('medias.destroy');
+    Route::post('medias/{media}/extend', [MediathequeController::class, 'extend'])->name('medias.extend');
+});
 
 
 // Gestion des posts
@@ -132,6 +157,14 @@ Route::middleware([
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-// Route de Donation
-Route::get('/give', [PageController::class, 'give'])->name('give');
-Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
+//l'interaction de post dans le dashboard admin
+Route::resource('posts', PostController::class);
+Route::get('/activity', [PostController::class, 'index'])->name('activity');
+
+//gestion user admin
+Route::prefix('admin')->name('admin.')->middleware('auth', 'is_admin')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+});
+
+//Mgts!@./*admin
+//loi770BD.2025

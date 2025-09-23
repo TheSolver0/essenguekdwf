@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KDWFoundation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KDWFoundation</title>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
@@ -33,29 +34,24 @@
             </div>
         </div>
 
-        <!-- Navigation -->
-       <nav class="navbar bg-lime-600 flex justify-between items-center px-6 py-3 rounded-b-[50px]">
+      <!-- Navigation -->
+      <nav class="bg-lime-600 flex items-center justify-between px-4 md:px-6 py-2 md:py-3 rounded-b-[50px] relative">
+        <!-- Menu mobile -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
 
-            <!-- Liens de navigation -->
-           <div class="flex gap-6 text-white">
-                <a href="{{ url('/') }}"
-                class="{{ request()->is('/') ? 'underline' : '' }} hover:underline">Accueil</a>
-
-                <a href="{{ url('/about') }}"
-                class="{{ request()->is('about') ? 'underline' : '' }} hover:underline">Qui sommes-nous</a>
-
-                <a href="{{ url('/activity') }}"
-                class="{{ request()->is('activity') ? 'underline' : '' }} hover:underline">Actualité</a>
-
-                <a href="{{ url('/media') }}"
-                class="{{ request()->is('media') ? 'underline' : '' }} hover:underline">Médiathèque</a>
-
-                <a href="{{ url('/implantation') }}"
-                class="{{ request()->is('implantation') ? 'underline' : '' }} hover:underline">Implantation</a>
-
-                <a href="{{ url('/contact') }}"
-                class="{{ request()->is('contact') ? 'underline' : '' }} hover:underline">Contact</a>
-            </div>
+        <!-- Liens -->
+        <div id="mobile-menu" class="navbar hidden flex-col md:flex md:flex-row md:gap-6 w-full md:w-auto text-white mt-2 md:mt-0">
+          <a href="{{ url('/') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('/') ? 'underline' : '' }}">Accueil</a>
+          <a href="{{ url('/about') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('about') ? 'underline' : '' }}">Qui sommes-nous</a>
+          <a href="{{ url('/activity') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('activity') ? 'underline' : '' }}">Actualité</a>
+          <a href="{{ url('/media') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('media') ? 'underline' : '' }}">Médiathèque</a>
+          <a href="{{ url('/implantation') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('implantation') ? 'underline' : '' }}">Implantation</a>
+          <a href="{{ url('/contact') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('contact') ? 'underline' : '' }}">Contact</a>
+        </div>
 
 
             <!-- Groupe Compte + Don -->

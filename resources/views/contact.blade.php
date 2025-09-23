@@ -79,44 +79,43 @@
 
         <!-- FORMULAIRE -->
         <div class="p-10 bg-gray-50">
-            <form action="#" method="POST" class="space-y-6 animate-fadeIn delay-200">
-                
+            <form action="{{ route('contact.store') }}" method="POST" class="space-y-6 animate-fadeIn delay-200">
+            @csrf
                 <!-- Nom complet -->
                 <div>
-                    <label class="block font-semibold mb-2">Full Name*</label>
+                    <label class="block font-semibold mb-2">Nom Complet</label>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" placeholder="First Name" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
-                        <input type="text" placeholder="Last Name" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
+                        <input type="text" name="prenom" placeholder="Prénom" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" required>
+                        <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" required>
                     </div>
                 </div>
-
                 <!-- Adresse -->
                 <div>
-                    <label class="block font-semibold mb-2">Address</label>
-                    <input type="text" placeholder="Street Address" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 mb-3 shadow-sm">
+                    <label class="block font-semibold mb-2">Adresse</label>
+                    <input type="text" name="adresse" placeholder="Street Address" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 mb-3 shadow-sm" require>
                     <div class="grid grid-cols-3 gap-4">
-                        <input type="text" placeholder="City" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
-                        <input type="text" placeholder="State" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
-                        <input type="text" placeholder="ZIP Code" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
+                        <input type="text" name="ville" placeholder="Ville" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require>
+                        <input type="text" name="region" placeholder="Région" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require>
+                        <input type="text" name="zip" placeholder="ZIP Code" class="p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require>
                     </div>
                 </div>
 
                 <!-- Contact info -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-semibold mb-2">Email*</label>
-                        <input type="email" placeholder="your@email.com" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
+                        <label class="block font-semibold mb-2" require>Email</label>
+                        <input type="email" name="email" placeholder="ton@email.com" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require>
                     </div>
                     <div>
-                        <label class="block font-semibold mb-2">Phone</label>
-                        <input type="tel" placeholder="+237 ..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm">
+                        <label class="block font-semibold mb-2"require>Téléphone</label>
+                        <input type="tel" name="telephone" placeholder="+237 ..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require>
                     </div>
                 </div>
 
                 <!-- Message -->
                 <div>
-                    <label class="block font-semibold mb-2">Message*</label>
-                    <textarea rows="4" placeholder="Écrivez votre message..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm"></textarea>
+                    <label class="block font-semibold mb-2" require>Message</label>
+                    <textarea rows="4" name="message" placeholder="Écrivez votre message..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-600 shadow-sm" require></textarea>
                 </div>
 
                 <!-- Newsletter -->
@@ -134,4 +133,23 @@
         </div>
     </div>
 </section>
+
+@if(session('success'))
+    <div 
+        x-data="{ show:true }"
+        x-show="show"
+        x-init="
+            setTimeout(()=>show=false,2000);
+            setTimeout(()=>window.location.href='{{ url('/') }}', 2000);
+        "
+        x-transition:leave="transition duration-500 ease-in"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-75"
+        class="fixed top-10 left-1/2 -translate-x-1/2 z-[9999] bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl text-xl font-bold flex items-center gap-3"
+        style="min-width:300px;"
+    >
+        <i class="fa fa-check-circle text-3xl"></i>
+        <span>{{ session('success') }}</span>
+    </div>
+@endif
 @endsection

@@ -31,8 +31,22 @@
                         {{ $user->badge ?? 'Standard' }}
                     </span>
                 </div>
+        <div class="text-center">
+            <img src="{{ $user->photo ? asset('storage/'.$user->photo) : asset('images/avatar.jpg') }}"
+                alt="Avatar"
+                class="w-24 h-24 rounded-full mx-auto mb-3 border-4 border-blue-900">
+
+            <!-- ✅ Badge juste sous la photo -->
+            <div class="mb-2">
+                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm shadow">
+                    🎗️ {{ $user->badge ?? 'Standard' }}
+                </span>
             </div>
+
+            <h2 class="text-xl font-semibold text-blue-900">{{ $user->name }}</h2>
+            <p class="text-gray-600">{{ $user->role ?? 'Donateur' }}</p>
         </div>
+
 
         <!-- ✅ Vue d'ensemble -->
         <div class="bg-white shadow-lg rounded-xl p-6 col-span-2">
@@ -114,15 +128,63 @@
             </ul>
         </div>
 
-        <!-- ✅ Badges & Statut -->
+       <!-- ✅ Badges & Statut -->
         <div class="bg-white shadow-lg rounded-xl p-6 col-span-2">
             <h3 class="text-lg font-bold text-blue-900 mb-4">Badges & Statut</h3>
-            <div class="flex gap-4 text-xl">
+
+            <div class="flex gap-4 text-xl mb-4">
                 @if($user->badge) <span>🎗️ {{ $user->badge }}</span> @endif
                 @if($user->badge == 'Bienfaiteur') <span>🌿 Bienfaiteur</span> @endif
                 @if($user->badge == 'Ambassadeur KDWF') <span>🏅 Ambassadeur KDWF</span> @endif
             </div>
+
+            @php
+                // ⚡ Exemple de paliers badges
+                $levels = [
+                    'Standard' => 0,
+                    'Bienfaiteur' => 50000,
+                    'Ambassadeur KDWF' => 200000,
+                ];
+
+                $total = $user->total_dons ?? 0;
+
+                // Trouver le prochain palier
+                $nextLevel = null;
+                foreach($levels as $badgeName => $threshold){
+                    if($total < $threshold){
+                        $nextLevel = ['name' => $badgeName, 'threshold' => $threshold];
+                        break;
+                    }
+                }
+
+                if($nextLevel){
+                    $previousThreshold = 0;
+                    foreach($levels as $b => $t){
+                        if($t < $nextLevel['threshold']){
+                            $previousThreshold = $t;
+                        }
+                    }
+
+                    $progress = (($total - $previousThreshold) / ($nextLevel['threshold'] - $previousThreshold)) * 100;
+                    $progress = max(0, min(100, $progress));
+                }
+            @endphp
+
+            @if($nextLevel)
+                <p class="text-sm text-gray-600 mb-2">
+                    Prochain badge : <span class="font-semibold">{{ $nextLevel['name'] }}</span>
+                    (reste {{ number_format($nextLevel['threshold'] - $total, 0, ',', ' ') }} FCFA)
+                </p>
+                <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                    <div class="bg-yellow-500 h-3 rounded-full" style="width: {{ $progress }}%"></div>
+                </div>
+            @else
+                <p class="text-sm text-green-600 font-semibold">
+                    🎉 Félicitations ! Vous avez atteint le badge maximum.
+                </p>
+            @endif
         </div>
+
 
         <!-- ✅ Notifications -->
         <div class="bg-white shadow-lg rounded-xl p-6 col-span-1">
