@@ -48,8 +48,9 @@
           <a href="{{ url('/') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('/') ? 'underline' : '' }}">Accueil</a>
           <a href="{{ url('/about') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('about') ? 'underline' : '' }}">Qui sommes-nous</a>
           <a href="{{ url('/activity') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('activity') ? 'underline' : '' }}">Actualité</a>
-          <a href="{{ url('/media') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('media') ? 'underline' : '' }}">Médiathèque</a>
-          <a href="{{ url('/implantation') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('implantation') ? 'underline' : '' }}">Implantation</a>
+          <a href="{{ url('/mediatheque') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('mediatheque') ? 'underline' : '' }}">Médiathèque</a>
+          {{-- <a href="{{ url('/implantation') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('implantation') ? 'underline' : '' }}">Implantation</a> --}}
+          
           <a href="{{ url('/contact') }}" class="block md:inline-block px-2 py-1 hover:underline {{ request()->is('contact') ? 'underline' : '' }}">Contact</a>
         </div>
 
