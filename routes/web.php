@@ -168,3 +168,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'is_admin')->group(fu
 
 //Mgts!@./*admin
 //loi770BD.2025
+// Route de Donation
+Route::get('/give', [PageController::class, 'give'])->name('give');
+// Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
