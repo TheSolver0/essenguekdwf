@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMessageMail;
 use App\Models\ContactMessage;
 
 class ContactController extends Controller
@@ -18,7 +19,7 @@ class ContactController extends Controller
     public function send(Request $request)
     {
         // Validation des champs
-        $request->validate([
+        $data = $request->validate([
             'prenom'    => 'required|string|max:100',
             'nom'       => 'required|string|max:100',
             'adresse'   => 'nullable|string|max:255',
@@ -42,11 +43,12 @@ class ContactController extends Controller
             'telephone' => $request->telephone,
             'message'   => $request->message,
         ]);
+//  Mail::to('contact@kdwfoundation.org')->send(new ContactMessageMail($data));
 
         // Envoi par email (optionnel)
         $data = $request->all();
         Mail::send('emails.contact', ['data' => $data], function($message) use ($data) {
-            $message->to('nathanbiloa@gmail.com')
+            $message->to('lucfotso0@gmail.com')
                     ->subject('Nouveau message depuis le formulaire de contact');
         });
 

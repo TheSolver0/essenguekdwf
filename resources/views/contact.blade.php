@@ -10,7 +10,7 @@
         <div class="bg-sky-600 text-white p-10 flex flex-col justify-center transform transition duration-500 hover:scale-105">
             <h2 class="text-4xl font-bold mb-6">Contactez-nous</h2>
             <p class="mb-4 text-lg opacity-90">Vous avez une question, une suggestion ou un besoin de plus d’informations ? Écrivez-nous et notre équipe vous répondra rapidement.</p>
-            
+
             <div class="mt-6 space-y-4">
                 <!-- Adresse -->
                 <div class="flex items-center gap-3">
@@ -120,7 +120,7 @@
 
                 <!-- Newsletter -->
                 <div class="flex items-center">
-                    <input type="checkbox" id="newsletter" class="mr-2">
+                    <input type="checkbox" id="newsletter" name="newsletter" class="mr-2">
                     <label for="newsletter" class="text-sm">Update me on deals and special offers via email.</label>
                 </div>
 
@@ -135,7 +135,7 @@
 </section>
 
 @if(session('success'))
-    <div 
+    <div
         x-data="{ show:true }"
         x-show="show"
         x-init="

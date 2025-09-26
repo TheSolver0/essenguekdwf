@@ -15,6 +15,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DonController;
 use App\Http\Controllers\MediathequeController;
+use App\Http\Controllers\NewsletterController;
+
 
 // use App\Http\Controller\Auth\LoginController;
 use NotchPay\NotchPay;
@@ -171,3 +173,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'is_admin')->group(fu
 // Route de Donation
 Route::get('/give', [PageController::class, 'give'])->name('give');
 // Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
+
+
+
+// Routes for newsletter feature
+Route::get('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.store');
+
+// Admin routes for managing subscribers
+Route::get('/admin/newsletter', [NewsletterController::class, 'admin'])->name('newsletter.admin');
