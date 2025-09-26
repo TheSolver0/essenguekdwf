@@ -5,3 +5,57 @@
 [x-cloak] {
     display: none;
 }
+
+.navbar {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+}
+
+
+/* Animations apparition */
+@keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+.animate-fade-left { animation: fadeLeft 0.8s ease forwards; }
+.animate-fade-right { animation: fadeRight 0.8s ease forwards; }
+
+/* Défilement vertical continu */
+@keyframes scrollDown {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+@keyframes scrollUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+}
+.animate-scroll-down {
+    animation: scrollDown 20s linear infinite;
+}
+.animate-scroll-up {
+    animation: scrollUp 20s linear infinite;
+}
+
+/* Arrêt du défilement au survol */
+.scroll-container:hover .animate-scroll-down,
+.scroll-container:hover .animate-scroll-up {
+    animation-play-state: paused;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.highlighted {
+  animation: highlight 3s ease-in-out;
+}
+
+@keyframes highlight {
+  0% { background-color: #fef08a; } /* jaune clair */
+  100% { background-color: white; }
+}
+

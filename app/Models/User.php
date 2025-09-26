@@ -1,24 +1,20 @@
-<?php
+<?php 
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +23,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'role',
+        'photo',
+        'badge',
+        'total_dons',
+        'total_likes',
+        'total_commentaires',
     ];
 
     /**
@@ -64,6 +67,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // 🚀 Génération auto du username
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->username)) {
+                $baseUsername = Str::slug($user->name);
+
+                // Vérifier si déjà existant
+                $count = static::where('username', 'like', $baseUsername.'%')->count();
+
+                $user->username = $count ? $baseUsername.'-'.($count+1) : $baseUsername;
+            }
+        });
+    }
+
+    // -----------------------
+    // Relations
+    // -----------------------
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -79,4 +104,73 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+    // -----------------------
+    // Gamification
+    // -----------------------
+
+    /**
+     * Met à jour le badge de l'utilisateur en fonction des critères
+     */
+    public function updateBadge()
+    {
+        $badge = 'Aucun';
+
+        // Condition : engagement
+        if ($this->total_likes >= 0 || $this->total_commentaires >= 0) {
+            $badge = 'Membre';
+        }
+
+        // Nouveau donateur : moins de 10$
+        if ($this->total_dons < 10 && $this->total_dons > 0) {
+            $badge = 'Nouveau Donateur';
+        }
+
+        // Bienfaiteur : 500$ ou plus
+        if ($this->total_dons >= 500) {
+            $badge = 'Bienfaiteur';
+        }
+
+        // Ambassadeur KDWF : 1000$ + engagement
+        if ($this->total_dons >= 1000 && $this->total_likes > 0 && $this->total_commentaires > 0) {
+            $badge = 'Ambassadeur KDWF';
+        }
+
+        $this->badge = $badge;
+        $this->save();
+    }
+
+    public function campagnes()
+    {
+        return $this->hasMany(Campagne::class);
+    }
+
+    public function dons()
+    {
+        return $this->hasMany(Don::class);
+    }
+
+    //public function notifications()
+    //{
+    //    return $this->hasMany(Notification::class);
+    //}
+
+    public function userNotifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id', 'id')
+                    ->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Retourne l'URL de la photo de profil
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        // Si l'utilisateur a une photo définie
+        if ($this->photo) {
+            return asset('storage/' . $this->photo); // ou selon ton dossier de stockage
+        }
+
+        // Sinon, une image par défaut
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
+    }
 }
