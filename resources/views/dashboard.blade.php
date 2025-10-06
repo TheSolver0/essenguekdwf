@@ -9,7 +9,7 @@
         <button
             class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
             onclick="document.getElementById('editModal').classList.remove('hidden')">
-            ✏️ Modifier mon profil
+            Modifier mon profil
         </button>
         <a href="{{ route('posts.create') }}" class="btn btn-primary bg-green-400 py-2 px-4 rounded-lg hover:bg-green-500">Créer un post</a>
 
@@ -39,7 +39,7 @@
             <!-- ✅ Badge juste sous la photo -->
             <div class="mb-2">
                 <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm shadow">
-                    🎗️ {{ $user->badge ?? 'Standard' }}
+                     {{ $user->badge ?? 'Standard' }}
                 </span>
             </div>
 
@@ -133,9 +133,9 @@
             <h3 class="text-lg font-bold text-blue-900 mb-4">Badges & Statut</h3>
 
             <div class="flex gap-4 text-xl mb-4">
-                @if($user->badge) <span>🎗️ {{ $user->badge }}</span> @endif
-                @if($user->badge == 'Bienfaiteur') <span>🌿 Bienfaiteur</span> @endif
-                @if($user->badge == 'Ambassadeur KDWF') <span>🏅 Ambassadeur KDWF</span> @endif
+                @if($user->badge) <span> {{ $user->badge }}</span> @endif
+                @if($user->badge == 'Bienfaiteur') <span> Bienfaiteur</span> @endif
+                @if($user->badge == 'Ambassadeur KDWF') <span> Ambassadeur KDWF</span> @endif
             </div>
 
             @php
