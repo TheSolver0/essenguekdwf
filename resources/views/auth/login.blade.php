@@ -4,7 +4,7 @@
 <div class="relative flex flex-col items-center min-h-[calc(100vh-8rem-10rem)] px-4 pt-20">
 
     {{-- Contenu du formulaire --}}
-    <div 
+    <div
       class="relative w-full max-w-md bg-stone-50 bg-opacity-95 rounded-xl shadow-xl p-8 z-10 border-4 border-double border-sky-500 border-r-lime-500 border-t-sky-500 border-b-lime-500 rounded-lg p-6
       style="backdrop-filter: blur(8px);"
     >
@@ -29,13 +29,13 @@
 
             @csrf
 
-            <div class="mb-5">
+            {{-- <div class="mb-5">
                 <x-label for="username" value="{{ __('Username') }}" class="text-sky-700 font-semibold" />
                 <x-input id="username" class="mt-1 block w-full border border-sky-300 rounded-md
                              focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400
                              transition duration-300"
                          type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
-            </div>
+            </div> --}}
 
             <div class="mb-5">
                 <x-label for="email" value="{{ __('Email') }}" class="text-sky-700 font-semibold" />

@@ -43,14 +43,14 @@ class ContactController extends Controller
             'telephone' => $request->telephone,
             'message'   => $request->message,
         ]);
-//  Mail::to('contact@kdwfoundation.org')->send(new ContactMessageMail($data));
+      Mail::to('contact@kingsdreamworldfoundation.org')->send(new ContactMessageMail($data));
 
         // Envoi par email (optionnel)
-        $data = $request->all();
-        Mail::send('emails.contact', ['data' => $data], function($message) use ($data) {
-            $message->to('lucfotso0@gmail.com')
-                    ->subject('Nouveau message depuis le formulaire de contact');
-        });
+        // $data = $request->all();
+        // Mail::send('emails.contact', ['data' => $data], function($message) use ($data) {
+        //     $message->to('contact@kingsdreamworldfoundation.org')
+        //             ->subject('Nouveau message depuis le formulaire de contact');
+        // });
 
         return back()->with('success', 'Merci ! Votre message a été envoyé avec succès.');
     }

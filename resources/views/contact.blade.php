@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Contact - KDWF')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @section('content')
 <section class="relative bg-white shadow-2xl rounded-2xl max-w-6xl mx-auto mt-32 overflow-hidden animate-fadeIn">
@@ -133,7 +134,47 @@
         </div>
     </div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('newsletter');
+    if (!checkbox) return;
 
+    checkbox.addEventListener('change', async function () {
+        const subscribed = checkbox.checked ? 1 : 0;
+        const emailInput = document.querySelector('input[name="email"]');
+        const email = emailInput ? emailInput.value.trim() : '';
+
+        checkbox.disabled = true;
+
+        try {
+            const res = await fetch("{{ route('newsletter.subscribe') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ subscribed, email })
+            });
+
+            const data = await res.json();
+
+            // simple feedback (adapter selon vos styles)
+            if (res.ok) {
+                alert(data.message || 'Préférence newsletter enregistrée.');
+            } else {
+                alert(data.message || 'Erreur lors de l\'enregistrement.');
+                // revert checkbox on error
+                checkbox.checked = !checkbox.checked;
+            }
+        } catch (e) {
+            // alert('Erreur réseau.', e);
+            checkbox.checked = !checkbox.checked;
+        } finally {
+            checkbox.disabled = false;
+        }
+    });
+});
+</script>
 @if(session('success'))
     <div
         x-data="{ show:true }"

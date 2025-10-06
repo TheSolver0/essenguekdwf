@@ -15,10 +15,13 @@ class NewsletterController extends Controller
 
         NewsletterSubscriber::create([
             'email' => $request->email,
-            'subscribed' => true,
+            'is_subscribed' => true,
         ]);
 
-        return redirect()->back()->with('success', 'You have successfully subscribed to the newsletter!');
+    //    return response()->json([
+    //         'ok' => true,
+    //         'message' => 'Vous êtes inscrit à la newsletter.'
+    //     ]);
     }
 
     public function manage()
