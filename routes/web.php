@@ -175,10 +175,14 @@ Route::get('/give', [PageController::class, 'give'])->name('give');
 // Route::post('/give', [PageController::class, 'processGive'])->name('give.process');
 
 
+// use App\Http\Controllers\NewsletterController;
+
+Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
 
 // Routes for newsletter feature
-Route::get('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.store');
+// Route::get('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+// Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.store');
 
 // Admin routes for managing subscribers
-Route::get('/admin/newsletter', [NewsletterController::class, 'admin'])->name('newsletter.admin');
+// Route::get('/admin/newsletter', [NewsletterController::class, 'admin'])->name('newsletter.admin');
